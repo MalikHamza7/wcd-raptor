@@ -68,9 +68,13 @@ python3 scripts/install.py
 # Or install dependencies manually
 pip3 install -r requirements.txt
 chmod +x wcd_raptor.py
+```
 
-# 🚀 Quick Start
+---
 
+## 🚀 Quick Start
+
+```bash
 # Basic scan
 python3 wcd_raptor.py --target https://example.com
 
@@ -79,8 +83,15 @@ python3 wcd_raptor.py --target https://example.com --exploit
 
 # Bulk scanning with authentication
 python3 wcd_raptor.py --url-file targets.txt --cookie-file cookies.txt --exploit
+```
 
-# Basic Usage 
+---
+
+## 📖 Usage
+
+### Basic Usage
+
+```bash
 # Single target scan
 python3 wcd_raptor.py --target https://example.com
 
@@ -92,9 +103,11 @@ python3 wcd_raptor.py --url-file urls.txt --exploit
 
 # Deep exploitation mode
 python3 wcd_raptor.py --target https://example.com --exploit --exploit-depth deep
+```
 
-# Advanced Options
+### Advanced Options
 
+```bash
 # Verbose output with custom threads and origin exploitation
 python3 wcd_raptor.py --target https://example.com --exploit --verbose --threads 10
 
@@ -103,9 +116,11 @@ python3 wcd_raptor.py --target https://example.com --exploit --origin-timeout 30
 
 # Complete scan with all features
 python3 wcd_raptor.py --target https://example.com --exploit --race-condition --verbose --exploit-depth deep
+```
 
-# Full Command Reference
+### Full Command Reference
 
+```
 Options:
   --target, -t           Single target domain/URL
   --url-file, -f         File containing list of URLs
@@ -122,9 +137,13 @@ Options:
   --exploit              Enable Origin Exploitation Engine (OEE)
   --origin-timeout       Origin IP request timeout (default: 15)
   --exploit-depth        Exploitation depth: basic, deep (default: basic)
+```
 
-# 📁 Output Structure
+---
 
+## 📁 Output Structure
+
+```
 output/
 └── example.com/
     ├── raw_urls.txt          # All input URLs
@@ -134,7 +153,160 @@ output/
     ├── origin_exploits.json  # 🔥 Origin exploitation results
     ├── results.json          # Detailed JSON results
     └── results.csv           # CSV summary
+```
 
+---
 
+## 🔧 Troubleshooting
 
+### Common Issues
 
+**Permission Denied**  
+```bash
+chmod +x wcd_raptor.py
+```
+
+**Module Import Errors**  
+```bash
+pip3 install -r requirements.txt --upgrade
+```
+
+**SSL Certificate Errors**  
+Tool auto-handles most SSL issues during origin testing.
+
+**Rate Limiting**  
+Lower thread count:  
+```bash
+--threads 3
+```
+
+---
+
+## 🔥 Origin Exploitation Examples
+
+### CSRF Token Discovery
+
+```
+✅ CSRF Token Found
+Origin IP: 192.168.1.100
+Path: /admin/login
+Evidence: csrf_token=abc123def456...
+Severity: MEDIUM
+```
+
+### Admin Panel Exposure
+
+```
+🚨 Admin Panel Exposed
+Origin IP: 192.168.1.100
+Path: /admin/dashboard
+Evidence: Admin panel accessible at https://192.168.1.100/admin/dashboard
+Severity: CRITICAL
+```
+
+### API Documentation Leak
+
+```
+💥 API Documentation Exposed
+Origin IP: 192.168.1.100
+Path: /api-docs
+Evidence: Swagger documentation exposed
+Severity: HIGH
+```
+
+### Debug Information Leak
+
+```
+🐞 Debug Information Found
+Origin IP: 192.168.1.100
+Path: /debug
+Evidence: APP_KEY=base64:abc123...
+Severity: HIGH
+```
+
+---
+
+## 🔍 Detection Methods
+
+### CDN Fingerprinting
+
+- **Cloudflare**: `cf-ray`, `cf-cache-status`
+- **Fastly**: `x-served-by`, `fastly-debug-digest`
+- **Akamai**: `akamai-origin-hop`
+- **Amazon CloudFront**: `x-amz-cf-id`
+- **And more...**
+
+### 🔥 Origin IP Discovery
+
+- DNS Resolution (A/AAAA records)  
+- Subdomain Enumeration  
+- Certificate Transparency Logs *(planned)*  
+- Historical DNS Records *(planned)*  
+- Shodan/Censys Integration *(planned)*  
+
+### Vulnerability Detection
+
+- Content hash comparison (SHA1)
+- HTTP status code analysis
+- Cache header inspection
+- Response time differences
+- Authentication bypass detection
+- **🔥 Origin-specific vulnerability signatures**
+
+---
+
+## 🛡️ Cookie Support
+
+Supports multiple formats:
+
+### JSON Format
+
+```json
+{
+  "session_id": "abc123",
+  "auth_token": "xyz789"
+}
+```
+
+### Netscape Format
+
+```
+# Netscape HTTP Cookie File
+.example.com	TRUE	/	FALSE	1234567890	session_id	abc123
+```
+
+---
+
+## 🎨 Example Output
+
+```
+╭─────────────────────────────────────────────────────────────╮
+│                        WCD-RAPTOR                           │
+│              Web Cache Deception Detection Tool            │
+│              🔥 Now with Origin Exploitation Engine        │
+│                                                             │
+│              Developed By: Hamza Iqbal                     │
+│              Version: 2.0.0                                │
+│              License: MIT                                   │
+╰─────────────────────────────────────────────────────────────╯
+
+🎯 Scanning target: https://example.com
+🔍 CDN Detected: Cloudflare
+📊 Found 15 potentially cacheable URLs
+🚨 Testing WCD vulnerabilities...
+🔥 Starting Origin Exploitation Engine (OEE)...
+🎯 Found 2 origin IP(s): 192.168.1.100, 10.0.0.50
+🎯 Exploiting origin IP: 192.168.1.100
+```
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Acknowledgements
+
+- Special thanks to the bug bounty community and researchers whose techniques inspired many of WCD-Raptor’s modules.
